@@ -319,12 +319,9 @@ def handle_feishu_auth(brand: str = "feishu", app_id: Optional[str] = None) -> N
         url = cli_page_url(info.get("url", ""), brand)
         user_code = info.get("user_code")
         if not user_code and url:
-            try:
-                parsed = urlparse(url)
-                query_dict = dict(parse_qsl(parsed.query, keep_blank_values=True))
-                user_code = query_dict.get("user_code")
-            except Exception:
-                pass
+            parsed = urlparse(url)
+            query_dict = dict(parse_qsl(parsed.query, keep_blank_values=True))
+            user_code = query_dict.get("user_code")
 
         if user_code:
             print(f"Code: {user_code}", flush=True)
@@ -333,7 +330,6 @@ def handle_feishu_auth(brand: str = "feishu", app_id: Optional[str] = None) -> N
         print(flush=True)
         print(_qr(url), flush=True)
         print("Waiting for approval. Ctrl-C to stop.", flush=True)
-        sys.stdout.flush()
 
     try:
         options = {"source": "connectonion"}
